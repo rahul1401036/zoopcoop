@@ -1,10 +1,11 @@
-import { Box, Button, Flex } from "@chakra-ui/react"
+import { Box, Button, Flex, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
 import Layout from "../components/layout"
 import { SearchBar } from "../components/searchbar"
+import { buddysearch_monologue } from "../constants"
 
-export default function Home(props) {
+export default function BuddySearch(props) {
   const [isloaded, setIsLoaded] = React.useState(false)
 
   useEffect(() => {
@@ -18,21 +19,17 @@ export default function Home(props) {
   const router = useRouter()
   return (
     <Flex direction={"column"}>
-      <Box margin={"auto"} paddingY={["5rem", "5rem", "6rem"]}>
-        <SearchBar onClick={(data) => router.push({ pathname: "/jobsearch", query: data })} />
-      </Box>
-
-      <Button
-        width={["20rem", "30rem", "40rem"]}
-        height={["3rem", "4rem", "5rem"]}
+      <Text
         margin={"auto"}
         fontSize={["2rem", "2.5rem", "3rem"]}
-        color="lightgreen"
-        borderRadius={"full"}
-        onClick={() => router.push("/buddysearch")}
+        marginX={["2rem", "2.5rem", "auto"]}
+        textAlign={"center"}
       >
-        Look For Buddy
-      </Button>
+        {buddysearch_monologue}
+      </Text>
+      <Box margin={"auto"} paddingY={["5rem", "5rem", "6rem"]}>
+        <SearchBar />
+      </Box>
     </Flex>
   )
 }
@@ -48,6 +45,6 @@ export async function getServerSideProps() {
   return { props: { title: "rahul" } }
 }
 
-Home.getLayout = function getLayout(page) {
+BuddySearch.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }

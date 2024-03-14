@@ -1,7 +1,7 @@
+import { Box, Button, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
 import Layout from "../components/layout"
-
 import Logincomponent from "../components/logincomponent"
 import Signupcomponent from "../components/signupcomponent"
 
@@ -20,7 +20,20 @@ export default function Login(props) {
   return (
     <>
       <Logincomponent />
-      <button onClick={() => router.push("/menu")}>Click here to read menu</button>
+      <Box padding={["5rem", "5rem", "6rem"]} textAlign={"center"}>
+        <Text
+          margin={"auto"}
+          fontSize={["1rem", "1rem", "1rem"]}
+          padding={["1rem", "1rem", "1rem"]}
+          marginX={["2rem", "2.5rem", "auto"]}
+          textAlign={"center"}
+        >
+          New Member ? Create an account
+        </Text>
+        <Button onClick={() => router.push("/signup")} margin={"auto"} colorScheme="blue">
+          Sign UP
+        </Button>
+      </Box>
     </>
   )
 }
@@ -37,5 +50,5 @@ export async function getServerSideProps() {
 }
 
 Login.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>
+  return page
 }

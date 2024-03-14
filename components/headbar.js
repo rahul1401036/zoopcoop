@@ -1,5 +1,4 @@
 import { Box, Button, Flex, Link, Stack, Text } from "@chakra-ui/react"
-import { useRouter } from "next/router"
 import { useDisclosure } from "@chakra-ui/react"
 import {
   Avatar,
@@ -12,16 +11,18 @@ import {
   DrawerOverlay,
   Icon,
   Input,
+  VStack,
 } from "@chakra-ui/react"
+import { useRouter } from "next/router"
 import React from "react"
-import { MdNotifications ,MdMessage , MdSearch ,MdDragHandle } from "react-icons/md"
+import { MdDragHandle, MdMessage, MdNotifications, MdSearch } from "react-icons/md"
 import Logo from "./logo"
-
 
 function DrawerWindow() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
 
+  const router = useRouter()
   return (
     <>
       <Button ref={btnRef} colorScheme="transparent" onClick={onOpen}>
@@ -31,19 +32,63 @@ function DrawerWindow() {
       </Button>
       <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent w={["50vw"]}>
           <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
+          <DrawerHeader>ZoopCoop</DrawerHeader>
 
           <DrawerBody>
-            <Input placeholder="Type here..." />
+            <VStack spacing={4} align="stretch">
+              <Button
+                to="/home"
+                variant="ghost"
+                onClick={() => {
+                  router.push("/home")
+                  onClose()
+                }}
+              >
+                Home
+              </Button>
+              <Button
+                to="/buddy"
+                variant="ghost"
+                onClick={() => {
+                  router.push("/buddy")
+                  onClose()
+                }}
+              >
+                Buddy
+              </Button>
+              <Button
+                to="/jobsplane"
+                variant="ghost"
+                onClick={() => {
+                  router.push("/jobsplane")
+                  onClose()
+                }}
+              >
+                Myjobs
+              </Button>
+              <Button
+                to="/notifications"
+                variant="ghost"
+                onClick={() => {
+                  router.push("/notifications")
+                  onClose()
+                }}
+              >
+                notifications
+              </Button>
+
+              {/* Add more navigation links as needed */}
+            </VStack>
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save</Button>
+            <VStack spacing={4} align="stretch">
+              <Button colorScheme="red" w={"100%"}>
+                Logout
+              </Button>
+            </VStack>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -110,7 +155,6 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
 }
 
 const LoginSignup = (props) => {
-
   const router = useRouter()
 
   if (!props.login) {
@@ -123,8 +167,12 @@ const LoginSignup = (props) => {
           direction={["column", "column", "row", "row"]}
           pt={[0, 0, 0, 0]}
         >
-          <Button to="/login">Login</Button>
-          <Button to="/signup">Sign Up</Button>
+          <Button to="/login" onClick={() => router.push("/login")}>
+            Login
+          </Button>
+          <Button to="/signup" onClick={() => router.push("/signup")}>
+            Sign Up
+          </Button>
         </Stack>
       </Flex>
     )
@@ -138,11 +186,20 @@ const LoginSignup = (props) => {
           direction={["column", "column", "row", "row"]}
           pt={[0, 0, 0, 0]}
         >
-          <LinksButt href={"/notifications"} label="notifications" as={MdNotifications} onClick={()=> router.push("/notifications")} />
-          <LinksButt href={"/messages"} label="messages" as={MdMessage} onClick={()=> router.push("/messages")} />
-          <LinksButt href={"/jobsearch"} label="jobsearch" as={MdSearch} onClick={()=> router.push("/jobsearch")} />
+          {router.asPath === "/buddy" ? (
+            <></>
+          ) : (
+            <LinksButt href={"/buddy"} label="buddy" hideicon onClick={() => router.push("/buddy")} />
+          )}
+          {/* { router.asPath === "/notifications" ?<></>:<LinksButt href={"/notifications"} label="notifications" as={MdNotifications} onClick={()=> router.push("/notifications")} />}
+          { router.asPath === "/messages" ?<></>:<LinksButt href={"/messages"} label="messages" as={MdMessage} onClick={()=> router.push("/messages")} />} */}
+          {router.asPath === "/jobsplane" ? (
+            <></>
+          ) : (
+            <LinksButt href={"/jobsplane"} label="myjobs" hideicon onClick={() => router.push("/jobsplane")} />
+          )}
 
-          <Avatar name={props.name} src={props.imageurl} onClick={()=> router.push("/profile")}/>
+          <Avatar name={props.name} src={props.imageurl} onClick={() => router.push("/profile")} />
         </Stack>
       </Flex>
     )
@@ -151,8 +208,8 @@ const LoginSignup = (props) => {
 
 const LinksButt = (props) => {
   return (
-    <Button  bgColor={"green"}  onClick={props.onClick} >
-      <Icon as={props.as} />
+    <Button bgColor={"green"} onClick={props.onClick}>
+      {!props.hideicon ? <Icon as={props.as} /> : <></>}
       <label>{props.label}</label>
     </Button>
   )

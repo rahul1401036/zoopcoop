@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react"
 import Layout from "../components/layout"
 import { SearchBar } from "../components/searchbar"
 
-export default function Home(props) {
+export default function MessagesHome(props) {
   const [isloaded, setIsLoaded] = React.useState(false)
 
   useEffect(() => {
@@ -16,25 +16,7 @@ export default function Home(props) {
   })
 
   const router = useRouter()
-  return (
-    <Flex direction={"column"}>
-      <Box margin={"auto"} paddingY={["5rem", "5rem", "6rem"]}>
-        <SearchBar onClick={(data) => router.push({ pathname: "/jobsearch", query: data })} />
-      </Box>
-
-      <Button
-        width={["20rem", "30rem", "40rem"]}
-        height={["3rem", "4rem", "5rem"]}
-        margin={"auto"}
-        fontSize={["2rem", "2.5rem", "3rem"]}
-        color="lightgreen"
-        borderRadius={"full"}
-        onClick={() => router.push("/buddysearch")}
-      >
-        Look For Buddy
-      </Button>
-    </Flex>
-  )
+  return <Flex direction={"column"}></Flex>
 }
 
 /**This place should be used to get any information from the server side
@@ -48,6 +30,6 @@ export async function getServerSideProps() {
   return { props: { title: "rahul" } }
 }
 
-Home.getLayout = function getLayout(page) {
+MessagesHome.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }
