@@ -1,8 +1,8 @@
-import { Button, Error, Grid, Spinner } from "@chakra-ui/react"
+import { Button, Error, Grid, Spinner, Text } from "@chakra-ui/react"
+import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
+import JobItem from "../components/jobitem"
 import Layout from "../components/layout"
-
-import MenuItem from "../components/menuitem"
 
 import { menuitemfetcher } from "../datafetch/datafetch"
 
@@ -16,12 +16,13 @@ function Menubox(props) {
   const container = (
     <>
       <Grid
-        templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]}
+        marginX={["5vh", "6vh", "8vh", "10vh"]}
+        templateColumns={["repeat(1, 1fr)"]}
         padding={["4%", "5%", "6%", "7%"]}
         gap={6}
       >
         {data.slice(1, showedcount).map((item) => (
-          <MenuItem
+          <JobItem
             key={item.id}
             id={item.id}
             itemid={item.userId}
@@ -31,7 +32,7 @@ function Menubox(props) {
           />
         ))}
       </Grid>
-      <Button onClick={() => setShowedcount(showedcount + 40)}></Button>
+      <Button onClick={() => setShowedcount(showedcount + 40)}>Load more</Button>
     </>
   )
   return container
@@ -39,6 +40,8 @@ function Menubox(props) {
 
 export default function MenuPage(props) {
   const [isloaded, setIsLoaded] = React.useState(false)
+
+  const router = useRouter()
 
   useEffect(() => {
     if (!isloaded) {
@@ -48,7 +51,12 @@ export default function MenuPage(props) {
     }
   })
 
-  return <Menubox />
+  return (
+    <>
+      <Text>Search Results for </Text>
+      <Menubox />
+    </>
+  )
 }
 
 /**This place should be used to get any information from the server side

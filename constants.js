@@ -21,6 +21,8 @@ export const geturlFormdata = (data, reqtype, queryoptions, formdataoptions) => 
 
 export const workstatus_dict = { 1: "progress", 2: "created", 3: "done" }
 
+export const buddysearch_monologue = "Buddy programs finds you a person to prepare with "
+
 export const onRefresh = (authContext) => {
   try {
     if (typeof window !== "undefined") {

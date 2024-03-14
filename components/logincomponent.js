@@ -6,6 +6,7 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Heading,
   Input,
   Link,
   Stack,
@@ -196,19 +197,10 @@ export default function Logincomponent(props) {
 
   console.log(password)
   return (
-    <Box
-      w={["80%", "60%", "40%"]}
-      align="center"
-      bgGradient="linear(to-b, blue.200, blue.500)"
-      padding={10}
-      borderRadius={10}
-      margin="auto"
-    >
+    <Box w={["80%", "60%", "40%"]} align="center" paddingTop={100} borderRadius={10} margin="auto">
       {!linksent && (
         <>
-          <FormLabel margin={"auto"} padding={"auto"} textAlign={"center"}>
-            Log in
-          </FormLabel>
+          <Heading mb={6}>Login</Heading>
           <FormControl className={"form-group"}>
             <FormLabelInput
               inputtype="email"
@@ -228,13 +220,10 @@ export default function Logincomponent(props) {
             Log in
           </Button>
 
-          <p>--- or ---</p>
+          {/* <p>--- or ---</p>
           <Button className="btn" onClick={signinWithLink}>
             Continue with signin link
-          </Button>
-
-          {/* <p >Sign in with</p>  */}
-          {/* <Login />  */}
+          </Button> */}
         </>
       )}
 
