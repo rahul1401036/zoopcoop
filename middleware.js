@@ -8,10 +8,11 @@ const verifyJWT = async (token) => {
   return payload
 }
 
-export default async function middleware(req, res) {
+export default async function middlewaredummy(req, res) {}
+
+async function middleware(req, res) {
   // Extract token from request headers or cookies or wherever it's stored
   const token = req.cookies.get("token")
-
 
   if (!token || token.value == "") {
     if (req.url == "http://localhost:3000/login") {

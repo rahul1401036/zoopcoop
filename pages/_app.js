@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app"
-import Head from 'next/head'
+import Head from "next/head"
 import React, { useContext, useEffect, useState } from "react"
 
 //Auth imports
@@ -72,7 +72,7 @@ function MyApp({ Component, pageProps }) {
 
     if (!loaded) {
       // console.log("1st check", firebaseConfig)
-      
+
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker.register("/sw.js").then(
@@ -92,22 +92,22 @@ function MyApp({ Component, pageProps }) {
   ///// Manual test with console
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
-      <ChakraProvider theme={customTheme}>
-        <AuthContext.Provider
-          value={{
-            isLoggedIn: loggedIn,
-            firebase: app,
-            login: login,
-            logout: logout,
-            accounttype: acctype,
-            modelopen: modelopen,
-            setModel: setModel,
-            checkType: checkType,
-          }}
-        >
-          {getLayout(<Component {...pageProps} />)}
-        </AuthContext.Provider>
-      </ChakraProvider>
+    <ChakraProvider theme={customTheme}>
+      <AuthContext.Provider
+        value={{
+          isLoggedIn: loggedIn,
+          firebase: app,
+          login: login,
+          logout: logout,
+          accounttype: acctype,
+          modelopen: modelopen,
+          setModel: setModel,
+          checkType: checkType,
+        }}
+      >
+        {getLayout(<Component {...pageProps} />)}
+      </AuthContext.Provider>
+    </ChakraProvider>
   )
 }
 
