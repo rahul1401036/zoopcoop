@@ -8,7 +8,7 @@ importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compa
 // your app's Firebase config object.
 // https://firebase.google.com/docs/web/setup#config-object
 const firebaseConfig = {
-  apiKey: "AIzaSyARcLufTeUZbGue0-k9iZJVxmKlp0l0HQU",
+  apiKey: "API_key",
   authDomain: "freebees-24743.firebaseapp.com",
   projectId: "freebees-24743",
   storageBucket: "freebees-24743.appspot.com",

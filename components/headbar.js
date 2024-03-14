@@ -1,6 +1,8 @@
 import { Box, Button, Flex, Link, Stack, Text } from "@chakra-ui/react"
+import { useRouter } from "next/router"
 import { useDisclosure } from "@chakra-ui/react"
 import {
+  Avatar,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -8,20 +10,24 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  Icon,
   Input,
 } from "@chakra-ui/react"
-import { Icon } from "@radix-ui/react-select"
 import React from "react"
+import { MdNotifications ,MdMessage , MdSearch ,MdDragHandle } from "react-icons/md"
 import Logo from "./logo"
 
-function DrawerExample() {
+
+function DrawerWindow() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
 
   return (
     <>
-      <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
-        <Icon />
+      <Button ref={btnRef} colorScheme="transparent" onClick={onOpen}>
+        <Icon as={MdDragHandle}>
+          <div></div>
+        </Icon>
       </Button>
       <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
@@ -52,19 +58,8 @@ const NavBar = (props) => {
 
   return (
     <NavBarContainer {...props} h={["10%", "100%", "10%", "100%"]}>
-      <DrawerExample />
+      <DrawerWindow />
       <LogoItem />
-      <Button
-        size="sm"
-        rounded="md"
-        color={["primary.500", "primary.500", "white", "white"]}
-        bg={["white", "white", "primary.500", "primary.500"]}
-        _hover={{
-          bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
-        }}
-      >
-        Create Account
-      </Button>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
     </NavBarContainer>
@@ -114,6 +109,54 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
   )
 }
 
+const LoginSignup = (props) => {
+
+  const router = useRouter()
+
+  if (!props.login) {
+    return (
+      <Flex>
+        <Stack
+          spacing={[6, 8, 10]}
+          align="center"
+          justify={["flex-end", "flex-end", "center", "center"]}
+          direction={["column", "column", "row", "row"]}
+          pt={[0, 0, 0, 0]}
+        >
+          <Button to="/login">Login</Button>
+          <Button to="/signup">Sign Up</Button>
+        </Stack>
+      </Flex>
+    )
+  } else {
+    return (
+      <Flex>
+        <Stack
+          spacing={[6, 8, 10]}
+          align="center"
+          justify={["flex-end", "flex-end", "center", "center"]}
+          direction={["column", "column", "row", "row"]}
+          pt={[0, 0, 0, 0]}
+        >
+          <LinksButt href={"/notifications"} label="notifications" as={MdNotifications} onClick={()=> router.push("/notifications")} />
+          <LinksButt href={"/messages"} label="messages" as={MdMessage} onClick={()=> router.push("/messages")} />
+          <LinksButt href={"/jobsearch"} label="jobsearch" as={MdSearch} onClick={()=> router.push("/jobsearch")} />
+
+          <Avatar name={props.name} src={props.imageurl} onClick={()=> router.push("/profile")}/>
+        </Stack>
+      </Flex>
+    )
+  }
+}
+
+const LinksButt = (props) => {
+  return (
+    <Button  bgColor={"green"}  onClick={props.onClick} >
+      <Icon as={props.as} />
+      <label>{props.label}</label>
+    </Button>
+  )
+}
 const MenuLinks = ({ isOpen }) => {
   return (
     <Box display={{ base: isOpen ? "block" : "none", md: "block" }} flexBasis={{ base: "100%", md: "auto" }}>
@@ -124,9 +167,7 @@ const MenuLinks = ({ isOpen }) => {
         direction={["column", "column", "row", "row"]}
         pt={[0, 0, 0, 0]}
       >
-        <MenuItem to="/home">Home</MenuItem>
-        <MenuItem to="/how">How It works </MenuItem>
-        <MenuItem to="/pricing">Pricing </MenuItem>
+        <LoginSignup login={true} />
       </Stack>
     </Box>
   )
