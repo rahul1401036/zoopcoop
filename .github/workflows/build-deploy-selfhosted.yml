@@ -1,0 +1,54 @@
+name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Set this to your default branch
+
+jobs:
+  # review:
+  #   name: Review Deployment
+  #   runs-on: self-hosted
+  #   if: github.ref == 'refs/heads/main'  # Only execute for main branch pushes
+    
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+
+  #     # Perform any necessary checks or validations here
+  #     # For example, you can run tests, linting, or security scans on the Docker image
+      
+  #     # After the checks, you can prompt for manual review or approval
+  #     - name: Request review
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         files: ./your-docker-image.tar.gz
+  #         tag_name: v1  # Adjust as needed
+  #         title: Review Deployment
+  #         body: Please review the Docker image before deployment.
+  build-and-push:
+    runs-on: self-hosted
+    steps:
+    - name: Check Out Repository
+      uses: actions/checkout@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Pull Docker image
+      run: docker pull villain1039532/netjs:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: self-hosted
+    steps:
+      - name: Stop and remove existing container
+        run: docker stop netjs || true && docker rm netjs || true
+
+      - name: Run Docker container
+        run: docker run -d -p 8080:8080 --name netjs villain1039532/netjs:latest
+  
+
