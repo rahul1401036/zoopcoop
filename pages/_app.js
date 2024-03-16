@@ -73,17 +73,17 @@ function MyApp({ Component, pageProps }) {
     if (!loaded) {
       // console.log("1st check", firebaseConfig)
 
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("/sw.js").then(
-            function (registration) {
-              setRegistration(registration)
-              console.log("Service Worker registration successful with scope: ", registration.scope)
-            },
-            function (err) {}
-          )
-        })
-      }
+      // if ("serviceWorker" in navigator) {
+      //   window.addEventListener("load", function () {
+      //     navigator.serviceWorker.register("/sw.js").then(
+      //       function (registration) {
+      //         setRegistration(registration)
+      //         console.log("Service Worker registration successful with scope: ", registration.scope)
+      //       },
+      //       function (err) {}
+      //     )
+      //   })
+      // }
 
       setLoaded(true)
     }
