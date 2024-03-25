@@ -2,7 +2,6 @@
 
 import Head from "next/head"
 import Layout from "../../components/layout"
-import PeerJSComponent from "../../components/peerJSComponent"
 
 export default function Createtest() {
   return (
@@ -12,7 +11,6 @@ export default function Createtest() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Createtest</h1>
-      <PeerJSComponent />
     </>
   )
 }
