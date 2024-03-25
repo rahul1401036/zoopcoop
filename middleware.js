@@ -18,11 +18,13 @@ export default async function middleware(req, res) {
 
   if (!token || token.value == "") {
     if (req.url == `${baseURL}/login` ) {
-
+       console.log(req.url);
     } else {
-      return NextResponse.redirect(new URL("/login", req.url))
+      // return NextResponse.redirect(new URL("/login", req.url))
+      console.log("else" ,  req.url);
+
     }
-  } else {
+  } else {s
     if (req.url ==  `${baseURL}/login`) {
       return NextResponse.redirect( `${baseURL}/home`)
     }
