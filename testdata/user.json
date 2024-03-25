@@ -255,8 +255,15 @@
             "image_url": "https://example.com/image50.jpg",
             "summary": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         }
-    ]
+    ],
     
-    
+    "company":[
+{
+    "id": 1,
+    "name": "Company Name",
+    "description": "Company Description",
+    "logo_location": "https://example.com/logo.jpg"
+}
+]
   }
   

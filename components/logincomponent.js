@@ -17,6 +17,7 @@ import React, { Component, useContext, useState } from "react"
 import FormLabelInput from "./formlabelinput"
 import { geturlFormdata } from "../constants"
 import { AuthContext } from "../context"
+import { storelocal } from "../localstore"
 
 // import Login from "../googlelogin";
 
@@ -101,7 +102,9 @@ export default function Logincomponent(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
-    console.log(response.ok)
+
+    const data = await response.json()
+    storelocal("token", data.token.accessToken)
     if (response.ok) {
       router.push("/home")
     } else {

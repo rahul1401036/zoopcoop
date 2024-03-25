@@ -2,6 +2,7 @@ import Head from "next/head"
 import React, { useContext, useEffect, useState } from "react"
 import Header from "../components/headbar"
 import Logincomponent from "../components/logincomponent"
+import S3FileUpload from "../components/s3uploader"
 import Signupcomponent from "../components/signupcomponent"
 
 export default function Content(props) {
@@ -18,6 +19,7 @@ export default function Content(props) {
   return (
     <>
       <Header />
+      <S3FileUpload />
     </>
   )
 }
