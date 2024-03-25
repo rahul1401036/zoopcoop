@@ -1,6 +1,8 @@
 //here we can define all the things that we can keep in the cache database and remove it after some time
 
 //getting the type of endpoint at one point
+
+export const BASEURL = "https://s3.us-west-004.backblazeb2.com"
 export const geturlFormdata = (data, reqtype, queryoptions, formdataoptions) => {
   var rooturl = "https://api.smorentel.com/"
   var allurl = rooturl + `${data}/${reqtype}?`

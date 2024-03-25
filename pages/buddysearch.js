@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
 import Layout from "../components/layout"
 import { SearchBar } from "../components/searchbar"
+import Tabber from "../components/tabber"
 import { buddysearch_monologue } from "../constants"
 
 export default function BuddySearch(props) {
@@ -30,6 +31,7 @@ export default function BuddySearch(props) {
       <Box margin={"auto"} paddingY={["5rem", "5rem", "6rem"]}>
         <SearchBar />
       </Box>
+      <Tabber />
     </Flex>
   )
 }

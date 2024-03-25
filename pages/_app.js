@@ -11,6 +11,7 @@ import { getAuth } from "firebase/auth"
 import { SSRProvider } from "react-bootstrap"
 
 import { ChakraProvider } from "@chakra-ui/react"
+import { storelocal } from "../localstore"
 import customTheme from "../utils/themes"
 
 function MyApp({ Component, pageProps }) {

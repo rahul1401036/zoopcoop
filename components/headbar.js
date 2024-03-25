@@ -14,9 +14,10 @@ import {
   VStack,
 } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useEffect } from "react"
 import { MdDragHandle, MdMessage, MdNotifications, MdSearch } from "react-icons/md"
 import Logo from "./logo"
+import { colors } from "../utils/themes"
 
 function DrawerWindow() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -102,7 +103,7 @@ const NavBar = (props) => {
   const toggle = () => setIsOpen(!isOpen)
 
   return (
-    <NavBarContainer {...props} h={["10%", "100%", "10%", "100%"]}>
+    <NavBarContainer {...props} h={["15vh"]}>
       <DrawerWindow />
       <LogoItem />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
@@ -139,7 +140,7 @@ const MenuToggle = ({ toggle, isOpen }) => {
 const LogoItem = () => {
   return (
     <Link href={"/home"}>
-      <Logo w="100px" color={["white", "white", "primary.500", "primary.500"]}></Logo>
+      <Logo w="100px" color={["white", "white"]}></Logo>
     </Link>
   )
 }
@@ -208,13 +209,25 @@ const LoginSignup = (props) => {
 
 const LinksButt = (props) => {
   return (
-    <Button bgColor={"green"} onClick={props.onClick}>
+    <Button bgColor={"white"} onClick={props.onClick}>
       {!props.hideicon ? <Icon as={props.as} /> : <></>}
       <label>{props.label}</label>
     </Button>
   )
 }
 const MenuLinks = ({ isOpen }) => {
+  const [isLogin, setIsLogin] = React.useState(false)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token")
+      console.log(token)
+      if (token) {
+        setIsLogin(true)
+      }
+    }
+    console.log("menu links")
+  }, [isLogin])
   return (
     <Box display={{ base: isOpen ? "block" : "none", md: "block" }} flexBasis={{ base: "100%", md: "auto" }}>
       <Stack
@@ -224,7 +237,7 @@ const MenuLinks = ({ isOpen }) => {
         direction={["column", "column", "row", "row"]}
         pt={[0, 0, 0, 0]}
       >
-        <LoginSignup login={true} />
+        <LoginSignup login={isLogin} />
       </Stack>
     </Box>
   )
@@ -238,13 +251,12 @@ const NavBarContainer = ({ children, ...props }) => {
       justify="space-between"
       wrap="wrap"
       w="100%"
-      mb={8}
       p={[4, 6, 6, 6]}
       top={0}
       position="sticky"
       zIndex={10}
-      bgGradient="linear(to-b, green.200, green.100)"
-      color={["white", "white", "primary.700", "primary.700"]}
+      bgGradient={colors.headbar[100]}
+      color={"white"}
       {...props}
     >
       {children}

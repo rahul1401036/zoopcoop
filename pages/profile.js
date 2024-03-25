@@ -12,12 +12,22 @@ import {
   Flex,
   Heading,
   IconButton,
+  Input,
+  Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
   useEditableControls,
 } from "@chakra-ui/react"
-import React from "react"
+import React, { useState } from "react"
 import Layout from "../components/layout"
+import S3FileUpload from "../components/s3uploader"
 
 function EditableControls() {
   const { isEditing, getSubmitButtonProps, getCancelButtonProps, getEditButtonProps } = useEditableControls()
@@ -52,30 +62,83 @@ const EditableText = (props) => {
 }
 
 export default function ProfileHome(props) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const profiledata = {
+    name: "John Doe",
+    title: "Full Stack Developer",
+    location: "Mumbai",
+    bio: "I am a full stack developer",
+    image_url: "https://avatars.githubusercontent.com/u/37272663?v=4",
+    skills: ["React", "Node.js", "JavaScript"],
+    contactinfo: ["Email: 7C6zH@example.com", "Phone: 123-456-7890"],
+    experience: [
+      {
+        title: "Software Engineer",
+        company: "Amazon",
+        location: "Seattle",
+        date: "2018-2021",
+      },
+    ],
+    education: [
+      {
+        title: "Bachelor of Science",
+        school: "University of California, Berkeley",
+        location: "Berkeley, CA",
+        date: "2015-2018",
+      },
+    ],
+    projects: [
+      {
+        title: "Project 1",
+        description: "This is project 1",
+        image_url: "https://avatars.githubusercontent.com/u/37272663?v=4",
+        url: "https://github.com/kr716",
+        date: "2021-2022",
+      },
+      {
+        title: "Project 2",
+        description: "This is project 2",
+        image_url: "https://avatars.githubusercontent.com/u/37272663?v=4",
+        url: "https://github.com/kr716",
+        date: "2021-2022",
+      },
+    ],
+    certifications: [
+      {
+        title: "Certification 1",
+        url: "https://www.freecodecamp.org/certification/kr716/responsive-web-design",
+        date: "2021-2022",
+        image_url: "https://avatars.githubusercontent.com/u/37272663?v=4",
+      },
+    ],
+    resumeurl: "https://www.freecodecamp.org/certification/kr716/responsive-web-design",
+  }
+
+  const handleUploadnewResume = (event) => {
+    setIsOpen(true)
+  }
+
   return (
     <Flex minH="100vh" align="center" justify="center" bg="gray.50">
       <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
         <Stack spacing={6} align="center">
           <Avatar size="xl" src="https://avatars.githubusercontent.com/u/37272663?v=4" alt="Avatar Alt" />
-          <EditableText defaultValue="John Doe" fontSize="2xl" isPreviewFocusable={false} value={"John Doe"} />
+          <EditableText defaultValue="John Doe" fontSize="2xl" isPreviewFocusable={false} value={profiledata.name} />
 
           <EditableText
             defaultValue="Full Stack Developer"
             fontWeight="bold"
             isPreviewFocusable={false}
-            value={"Full Stack Developer"}
+            value={profiledata.title}
           />
 
           <Stack direction="row" spacing={4}>
-            <Badge px={2} py={1} bg="gray.50" fontWeight="400">
-              #React
-            </Badge>
-            <Badge px={2} py={1} bg="gray.50" fontWeight="400">
-              #Node.js
-            </Badge>
-            <Badge px={2} py={1} bg="gray.50" fontWeight="400">
-              #JavaScript
-            </Badge>
+            {profiledata.skills.map((skill) => (
+              <Badge px={2} py={1} bg="gray.50" key={skill} fontWeight="400">
+                {skill}
+              </Badge>
+            ))}
           </Stack>
         </Stack>
         <Stack spacing={10}>
@@ -86,6 +149,7 @@ export default function ProfileHome(props) {
             <Editable
               defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
               isPreviewFocusable={false}
+              value={profiledata.bio}
             >
               <Flex>
                 <EditablePreview />
@@ -99,18 +163,43 @@ export default function ProfileHome(props) {
               Contact Information
             </Text>
             <Stack spacing={2}>
-              <Editable defaultValue="johndoe@example.com" isPreviewFocusable={false}>
-                <EditablePreview />
-                <EditableInput />
-                <EditableControls />
-              </Editable>
-              <Editable defaultValue="+123 456 789" isPreviewFocusable={false}>
-                <EditablePreview />
-                <EditableInput />
-                <EditableControls />
-              </Editable>
+              {profiledata.contactinfo.map((info) => (
+                <Editable key={info} defaultValue={info} isPreviewFocusable={false}>
+                  <EditablePreview />
+                  <EditableInput />
+                  <EditableControls />
+                </Editable>
+              ))}
             </Stack>
           </Stack>
+          <Flex>
+            <Text>Resume:</Text>
+            {profiledata.resumeurl ? (
+              <Link href={profiledata.resumeurl} color={"blue"}>
+                Resume
+              </Link>
+            ) : (
+              <S3FileUpload />
+            )}
+            <Button colorScheme="blue" onClick={handleUploadnewResume}>
+              Upload new Resume
+            </Button>
+            <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Upload Resume</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <S3FileUpload />
+                </ModalBody>
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={() => setIsOpen(false)}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </Flex>
         </Stack>
       </Stack>
     </Flex>
