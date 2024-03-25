@@ -10,18 +10,21 @@ const verifyJWT = async (token) => {
 
 async function middlewaredummy(req, res) {}
 
+const baseURL = "https://seventwelve.in"
+const baseURL_test = "http://localhost:3000"
 export default async function middleware(req, res) {
   // Extract token from request headers or cookies or wherever it's stored
   const token = req.cookies.get("token")
 
   if (!token || token.value == "") {
-    if (req.url == "http://localhost:3000/login") {
+    if (req.url == `${baseURL}/login` ) {
+
     } else {
       return NextResponse.redirect(new URL("/login", req.url))
     }
   } else {
-    if (req.url == "http://localhost:3000/login") {
-      return NextResponse.redirect("http://localhost:3000/home")
+    if (req.url ==  `${baseURL}/login`) {
+      return NextResponse.redirect( `${baseURL}/home`)
     }
   }
 
