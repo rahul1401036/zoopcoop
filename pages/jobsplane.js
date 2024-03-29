@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Grid,
   HStack,
   Heading,
   Tab,
+  TabIndicator,
   TabList,
   TabPanel,
   TabPanels,
@@ -13,6 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react"
 import React from "react"
+import JobItem from "../components/jobitem"
 import Layout from "../components/layout"
 
 // Sample data for applied and saved jobs
@@ -27,42 +30,58 @@ const savedJobs = [
 ]
 
 // Component to display each job
-const JobItem = ({ job }) => (
-  <Box p={4} shadow="md" borderWidth="1px" borderRadius="md">
-    <Heading fontSize="xl">{job.title}</Heading>
-    <Text mt={2}>{job.company}</Text>
-    <HStack justifyContent="space-between" mt={2}>
-      <Tag size="sm" colorScheme={job.status.toLowerCase() === "applied" ? "blue" : "teal"}>
-        {job.status}
-      </Tag>
-      <Button size="sm">View</Button>
-    </HStack>
-  </Box>
-)
 
 export default function JobPlane() {
   return (
     <Box p={5}>
-      <Tabs variant="enclosed" orientation="vertical">
-        <TabList>
-          <Tab>Applied Jobs</Tab>
-          <Tab>Saved Jobs</Tab>
+      <Tabs flex={1} variant="unstyled" orientation={["horizontal", "horizontal", "vertical", "vertical"]}>
+        <TabList bg={"white"} borderRadius={"10px"}>
+          <Tab flex={1} borderLeftRadius={"10px"} _selected={{ color: "white", bg: "blue.500" }}>
+            Applied Jobs
+          </Tab>
+          <Tab flex={1} borderRightRadius={"10px"} _selected={{ color: "white", bg: "blue.500" }}>
+            Saved Jobs
+          </Tab>
         </TabList>
 
         <TabPanels>
           <TabPanel>
-            <VStack spacing={4}>
-              {appliedJobs.map((job) => (
-                <JobItem key={job.id} job={job} />
+            <Grid
+              marginX={["0vh", "1vh", "2vh", "4vh"]}
+              templateColumns={["repeat(1, 1fr)"]}
+              padding={["4%", "5%", "6%", "7%"]}
+              gap={6}
+            >
+              {appliedJobs.map((item) => (
+                <JobItem
+                  key={item.id}
+                  id={item.id}
+                  itemid={item.title}
+                  title={item.title}
+                  summary={item.item_type}
+                  image_url={item.image_url}
+                />
               ))}
-            </VStack>
+            </Grid>
           </TabPanel>
           <TabPanel>
-            <VStack spacing={4}>
-              {savedJobs.map((job) => (
-                <JobItem key={job.id} job={job} />
+            <Grid
+              marginX={["0vh", "1vh", "2vh", "4vh"]}
+              templateColumns={["repeat(1, 1fr)"]}
+              padding={["4%", "5%", "6%", "7%"]}
+              gap={6}
+            >
+              {savedJobs.map((item) => (
+                <JobItem
+                  key={item.id}
+                  id={item.id}
+                  itemid={item.title}
+                  title={item.title}
+                  summary={item.item_type}
+                  image_url={item.image_url}
+                />
               ))}
-            </VStack>
+            </Grid>
           </TabPanel>
         </TabPanels>
       </Tabs>

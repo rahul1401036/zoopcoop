@@ -6,10 +6,13 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Heading,
   Input,
   Link,
   Stack,
 } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
+
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import FormLabelInput from "./formlabelinput"
@@ -68,58 +71,64 @@ export default function Signupcomponent(props) {
   }
 
   return (
-    <Box
-      w="50%"
-      align="center"
-      bgGradient="linear(to-b, blue.200, blue.500)"
-      padding={10}
-      borderRadius={10}
-      margin="auto"
-    >
-      <FormControl onSubmit={handleSubmit} align="center">
-        <FormLabel margin={"auto"} padding={"auto"} textAlign={"center"}>
-          Register
-        </FormLabel>
+    <Flex justifyContent={"center"} bgColor={"white"} align="center" margin="auto" mt={[10]} borderRadius={10}>
+      <Flex direction={"column"} justifyContent={"center"} mb={6} flex={1} mx={10}>
+        <Heading mx={"auto"} mb={6}>
+          Sign up
+        </Heading>
+        <Flex direction={"column"} justifyContent={"center"} mb={6} flex={1}>
+          <Flex direction={"row"} justifyContent={"center"} mb={6} flex={1}>
+            <Flex flex={1}>
+              <Text h={"100%"} flex={1}>
+                Email
+              </Text>
+            </Flex>
+            <Flex flex={1}>
+              <Input
+                inputtype="email"
+                label="Email*"
+                placeholder="abc@xyz.uvw"
+                onChange={(e) => handleEmailChange(e)}
+              />
+            </Flex>
+          </Flex>
 
-        <FormLabelInput
-          inputtype="email"
-          label="Email*"
-          placeholder="abc@xyz.uvw"
-          onChange={(e) => handleEmailChange(e)}
-        />
+          <Flex direction={"row"} justifyContent={"center"} mb={6} flex={1}>
+            <Flex flex={1}>
+              <Text h={"100%"} flex={1}>
+                password
+              </Text>
+            </Flex>
+            <Flex flex={1}>
+              <Input
+                inputtype="password"
+                label="Password"
+                placeholder="type your password"
+                onChange={(e) => handlePasswordChange(e)}
+              />
+            </Flex>
+          </Flex>
 
-        <FormLabelInput
-          inputtype="number"
-          label="Phone"
-          placeholder="XXXXXXXXXX"
-          onChange={(e) => handlePhoneChange(e)}
-        />
-
-        <FormLabelInput
-          inputtype="password"
-          label="Password"
-          placeholder="type your password"
-          onChange={(e) => handlePasswordChange(e)}
-        />
-
-        <FormLabelInput
-          inputtype="password"
-          label="Confirm Password"
-          placeholder="type your password again"
-          onChange={(e) => handleConfirmPasswordChange(e)}
-        />
-
-        <Button type="submit" margin="auto" marginY="10px" disabled={!validateForm()} onClick={handleSubmit}>
-          Register
-        </Button>
-
-        <FormLabel margin={"auto"} align="center" textAlign={"center"}>
-          Already registered?{" "}
-          <Link href={`${siterooturl}login`} color="black.500" _hover={{ color: "blue.800", fontSize: "130%" }}>
-            log in
-          </Link>
-        </FormLabel>
-      </FormControl>
-    </Box>
+          <Flex direction={"row"} justifyContent={"center"} mb={6} flex={1}>
+            <Flex flex={1}>
+              <Text h={"100%"} flex={1}>
+                confirm password
+              </Text>
+            </Flex>
+            <Flex flex={1}>
+              <Input
+                inputtype="password"
+                label="Password"
+                placeholder="type your password"
+                onChange={(e) => handlePasswordChange(e)}
+              />
+            </Flex>
+          </Flex>
+          <Button className="btn" onClick={() => handleSubmit(email, password)} w={["70vw", "60vw", "50vw"]}>
+            Sign up
+          </Button>
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }

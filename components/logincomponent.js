@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Heading,
-  Input,
-  Link,
-  Stack,
-} from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, Input, Link, Stack, Text } from "@chakra-ui/react"
 import { getAuth, isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink } from "firebase/auth"
 import { useRouter } from "next/router"
 import React, { Component, useContext, useState } from "react"
@@ -200,26 +188,47 @@ export default function Logincomponent(props) {
 
   console.log(password)
   return (
-    <Box w={["80%", "60%", "40%"]} align="center" paddingTop={100} borderRadius={10} margin="auto">
+    <Flex justifyContent={"center"} bgColor={"white"} align="center" margin="auto" mt={[10]} borderRadius={10}>
       {!linksent && (
-        <>
-          <Heading mb={6}>Login</Heading>
-          <FormControl className={"form-group"}>
-            <FormLabelInput
-              inputtype="email"
-              label="Email*"
-              placeholder="abc@xyz.uvw"
-              onChange={(e) => handleEmailChange(e)}
-            />
+        <Flex direction={"column"} justifyContent={"center"} mb={6} flex={1} mx={10}>
+          <Heading mx={"auto"} mb={6}>
+            Login
+          </Heading>
 
-            <FormLabelInput
-              inputtype="password"
-              label="Password"
-              placeholder="type your password"
-              onChange={(e) => handlePasswordChange(e)}
-            />
-          </FormControl>
-          <Button className="btn" onClick={() => sighinWithCreds(email, password)}>
+          <Flex direction={"column"} justifyContent={"center"} mb={6} flex={1}>
+            <Flex direction={"row"} justifyContent={"center"} mb={6} flex={1}>
+              <Flex flex={1}>
+                <Text h={"100%"} flex={1}>
+                  Email
+                </Text>
+              </Flex>
+              <Flex flex={1}>
+                <Input
+                  inputtype="email"
+                  label="Email*"
+                  placeholder="abc@xyz.uvw"
+                  onChange={(e) => handleEmailChange(e)}
+                />
+              </Flex>
+            </Flex>
+
+            <Flex direction={"row"} justifyContent={"center"} mb={6} flex={1}>
+              <Flex flex={1}>
+                <Text h={"100%"} flex={1}>
+                  password
+                </Text>
+              </Flex>
+              <Flex flex={1}>
+                <Input
+                  inputtype="password"
+                  label="Password"
+                  placeholder="type your password"
+                  onChange={(e) => handlePasswordChange(e)}
+                />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Button className="btn" onClick={() => sighinWithCreds(email, password)} w={["70vw", "60vw", "50vw"]}>
             Log in
           </Button>
 
@@ -227,7 +236,7 @@ export default function Logincomponent(props) {
           <Button className="btn" onClick={signinWithLink}>
             Continue with signin link
           </Button> */}
-        </>
+        </Flex>
       )}
 
       {linksent && (
@@ -239,6 +248,6 @@ export default function Logincomponent(props) {
           </div>
         </>
       )}
-    </Box>
+    </Flex>
   )
 }

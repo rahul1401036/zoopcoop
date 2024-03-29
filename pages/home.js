@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
 import Layout from "../components/layout"
 import { SearchBar } from "../components/searchbar"
+import { colors, fontsmooth, themes } from "../utils/themes"
 
 export default function Home(props) {
   const [isloaded, setIsLoaded] = React.useState(false)
@@ -27,9 +28,10 @@ export default function Home(props) {
         margin={"auto"}
         marginBottom={["2rem", "3rem", "4rem"]}
         fontSize={["2rem", "2.5rem", "3rem"]}
-        color="lightgreen"
+        color={themes.theme2.colors.primary[500]}
         borderRadius={"full"}
         onClick={() => router.push("/buddysearch")}
+        style={fontsmooth.smooth}
       >
         Look For Buddy
       </Button>

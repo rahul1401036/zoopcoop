@@ -3,7 +3,8 @@ import useSWR from "swr"
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 const baseurl = "http://seventwelve.in:8080"
-const baseurl_test = "http://localhost:8082"
+// const baseurl_test = "http://localhost:8082"
+const baseurl_test = "http://192.168.178.20:8082"
 
 export function menuitemfetcher(api, queryparms) {
   var title = ""

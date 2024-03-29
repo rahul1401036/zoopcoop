@@ -17,23 +17,21 @@ export default async function middleware(req, res) {
   const token = req.cookies.get("token")
 
   if (!token || token.value == "") {
-    if (req.url == `${baseURL}/login` ) {
-       console.log(req.url);
+    if (req.url == `${baseURL}/login`) {
+      console.log(req.url)
     } else {
       // return NextResponse.redirect(new URL("/login", req.url))
-      console.log("else" ,  req.url);
-
+      console.log("else", req.url)
     }
-  } else {s
-    if (req.url ==  `${baseURL}/login`) {
-      return NextResponse.redirect( `${baseURL}/home`)
+  } else {
+    if (req.url == `${baseURL}/login`) {
+      return NextResponse.redirect(`${baseURL}/home`)
     }
   }
 
   try {
     // Verify the token
-    console.log("ASdasdasssssssssssss")
-    console.log(token.value)
+    
     const payload = await verifyJWT(token.value)
 
     // Attach the decoded user object to the request

@@ -1,9 +1,17 @@
 import { Box, Flex, Link, Spacer, Text, VStack } from "@chakra-ui/react"
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"
+import { colors } from "../utils/themes"
 
 const Footer = () => {
   return (
-    <Box as="footer" role="contentinfo" bg="teal.500" color="white" py="6" px={{ base: "4", md: "8" }}>
+    <Box
+      as="footer"
+      role="contentinfo"
+      bgGradient={colors.footer[100]}
+      color="white"
+      py="6"
+      px={{ base: "4", md: "8" }}
+    >
       <VStack spacing="1" align="center">
         <Flex>
           <Link href="#" isExternal>

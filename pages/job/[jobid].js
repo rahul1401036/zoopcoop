@@ -1,7 +1,8 @@
 import { CheckCircleIcon } from "@chakra-ui/icons"
-import { Box, Button, Divider, Heading, List, ListIcon, ListItem, Tag, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Divider, Flex, Heading, List, ListIcon, ListItem, Tag, Text, VStack } from "@chakra-ui/react"
 import React from "react"
 import Layout from "../../components/layout"
+import SimilarJobs from "../../components/similarjobs"
 
 export default function JobPage(props) {
   var jobDetails = {
@@ -32,50 +33,54 @@ export default function JobPage(props) {
   }
 
   return (
-    <Box maxW="800px" mx="auto" p={5}>
-      <VStack spacing={5} align="stretch">
-        <Heading as="h1" size="xl">
-          {jobDetails.title}
-        </Heading>
-        <Text fontSize="lg">{jobDetails.description}</Text>
-        <Box>
-          <Tag mr={2} colorScheme="blue">
-            {jobDetails.location}
-          </Tag>
-          <Tag colorScheme="green">{jobDetails.type}</Tag>
-        </Box>
-        <Divider />
-        <Box>
-          <Heading as="h2" size="lg">
-            Responsibilities:
+    <Flex direction="row" align="top" justify="top">
+      <Box maxW="800px" p={5}>
+        <VStack spacing={5} align="stretch">
+          <Heading as="h1" size="xl">
+            {jobDetails.title}
           </Heading>
-          <List spacing={2}>
-            {jobDetails.responsibilities.map((responsibility, index) => (
-              <ListItem key={index} display="flex" alignItems="center">
-                <ListIcon as={CheckCircleIcon} color="green.500" />
-                {responsibility}
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <Box>
-          <Heading as="h2" size="lg">
-            Requirements:
-          </Heading>
-          <List spacing={2}>
-            {jobDetails.requirements.map((requirement, index) => (
-              <ListItem key={index} display="flex" alignItems="center">
-                <ListIcon as={CheckCircleIcon} color="green.500" />
-                {requirement}
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <Button colorScheme="blue" size="lg">
-          Apply for this job
-        </Button>
-      </VStack>
-    </Box>
+          <Text fontSize="lg">{jobDetails.description}</Text>
+          <Box>
+            <Tag mr={2} colorScheme="blue">
+              {jobDetails.location}
+            </Tag>
+            <Tag colorScheme="green">{jobDetails.type}</Tag>
+          </Box>
+          <Divider />
+          <Box>
+            <Heading as="h2" size="lg">
+              Responsibilities:
+            </Heading>
+            <List spacing={2}>
+              {jobDetails.responsibilities.map((responsibility, index) => (
+                <ListItem key={index} display="flex" alignItems="center">
+                  <ListIcon as={CheckCircleIcon} color="green.500" />
+                  {responsibility}
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+          <Box>
+            <Heading as="h2" size="lg">
+              Requirements:
+            </Heading>
+            <List spacing={2}>
+              {jobDetails.requirements.map((requirement, index) => (
+                <ListItem key={index} display="flex" alignItems="center">
+                  <ListIcon as={CheckCircleIcon} color="green.500" />
+                  {requirement}
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+          <Button colorScheme="blue" size="lg">
+            Apply for this job
+          </Button>
+        </VStack>
+      </Box>
+
+      <SimilarJobs />
+    </Flex>
   )
 }
 
