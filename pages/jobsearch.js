@@ -7,7 +7,11 @@ import {
   Grid,
   Heading,
   Input,
+  Modal,
+  ModalContent,
+  ModalOverlay,
   Select,
+  Show,
   Slider,
   SliderFilledTrack,
   SliderThumb,
@@ -17,6 +21,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react"
+import { useDisclosure } from "@chakra-ui/react"
 
 import { useRouter } from "next/router"
 import { NextRequest } from "next/server"
@@ -25,6 +30,7 @@ import JobItem from "../components/jobitem"
 import Layout from "../components/layout"
 import { menuitemfetcher } from "../datafetch/datafetch"
 
+import { themes } from "../utils/themes"
 import { getQueryParamsFromUrl } from "../utils/utils"
 // import { Box, Checkbox, CheckboxGroup, Select, Slider, SliderFilledTrack, SliderThumb, SliderTrack } from "@chakra-ui/react";
 
@@ -45,7 +51,7 @@ function Menubox(props) {
         ) : (
           <>
             <Grid
-              marginX={["5vh", "6vh", "8vh", "10vh"]}
+              marginX={["0vh", "1vh", "2vh", "4vh"]}
               templateColumns={["repeat(1, 1fr)"]}
               padding={["4%", "5%", "6%", "7%"]}
               gap={6}
@@ -88,12 +94,22 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   }
 
   return (
-    <Flex direction="column" height={"fit-content"} m={6} position="sticky" top={"18vh"}>
+    <Flex
+      direction={["row", "row", "column"]}
+      alignItems={"center"}
+      height={"fit-content"}
+      maxW={"100vw"}
+      m={["auto", "auto", 0, 0]}
+      position="sticky"
+      top={["10vh", "12vh", "18vh"]}
+    >
       {pageNumbers.map((pageNumber) => (
         <Button
+          bgColor={currentPage === pageNumber ? themes.theme2.colors.primary[900] : "white"}
           key={pageNumber}
           variant={currentPage === pageNumber ? "solid" : "outline"}
           borderRadius={"full"}
+          size={["sm", "sm", "md"]}
           colorScheme="blue"
           onClick={() => goToPage(pageNumber)}
           my={1}
@@ -103,11 +119,12 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       ))}
       <Button
         variant="outline"
+        size={["sm", "sm", "md"]}
         colorScheme="blue"
         borderRadius={"full"}
         onClick={goToNextPage}
         disabled={currentPage === totalPages}
-        mx={1}
+        my={1}
       >
         ...
       </Button>
@@ -116,10 +133,12 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 }
 
 export default function MenuPage(props) {
-  const [isloaded, setIsLoaded] = React.useState(false)
+  const [isloaded, setIsLoaded] = React.useState(true)
   const [page, setPage] = React.useState(1)
+  const [filteropen, setFilteropen] = React.useState(true)
   const [searchtext, setSearchtext] = React.useState(props.searchtext)
   const router = useRouter()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
     if (!isloaded) {
@@ -132,13 +151,27 @@ export default function MenuPage(props) {
   return (
     <>
       {/* <SearchBar /> */}
-      <Box display="flex">
-        <FilterBox onSearchPress={(val) => setSearchtext(val)} />
+      <Flex flexDirection={["column-reverse", "column-reverse", "row", "row"]}>
+        <Show above="lg">
+          <FilterBox onSearchPress={(val) => setSearchtext(val)} />
+        </Show>
+
+        <Show below="lg">
+          <Button position={"fixed"} left={0} top={"50vh"} onClick={onOpen}></Button>
+
+          <Modal isOpen={isOpen} onClose={onClose} position="fixed" bottom={0}>
+            <ModalOverlay />
+            <ModalContent>
+              {" "}
+              <FilterBox onClose={() => onClose()} onSearchPress={(val) => setSearchtext(val)} />
+            </ModalContent>
+          </Modal>
+        </Show>
         <Box flex="1">
           <Menubox searchtext={searchtext} page={page} />
         </Box>
         <Pagination currentPage={page} totalPages={100} onPageChange={(page) => setPage(page)} />
-      </Box>
+      </Flex>
     </>
   )
 }
@@ -207,7 +240,12 @@ function FilterBox(props) {
       position="sticky"
       top={"15vh"}
     >
-      <SearchBar onSearchPress={(val) => props.onSearchPress(val)} />
+      <SearchBar
+        onSearchPress={(val) => {
+          props.onSearchPress(val)
+          props.onClose()
+        }}
+      />
       <Heading size="md" mb={3}>
         Filters
       </Heading>

@@ -1,10 +1,10 @@
 import Head from "next/head"
 import React, { useContext, useEffect, useState } from "react"
 import Header from "../components/headbar"
+import Layout from "../components/layout"
 import Logincomponent from "../components/logincomponent"
 import S3FileUpload from "../components/s3uploader"
 import Signupcomponent from "../components/signupcomponent"
-
 export default function Content(props) {
   const [isloaded, setIsLoaded] = React.useState(false)
 
@@ -18,8 +18,7 @@ export default function Content(props) {
 
   return (
     <>
-      <Header />
-      <S3FileUpload />
+      
     </>
   )
 }
@@ -33,4 +32,8 @@ export async function getServerSideProps() {
   })
 
   return { props: { title: "rahul" } }
+}
+
+Content.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
 }

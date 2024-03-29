@@ -1,7 +1,10 @@
 import { ChevronRightIcon } from "@chakra-ui/icons"
-import { Box, Button, Divider, Flex, Heading, List, ListIcon, ListItem, Text, VStack } from "@chakra-ui/react"
+import { Button, Card, Divider, Flex, Heading, Image, List, ListIcon, ListItem, Text, VStack } from "@chakra-ui/react"
+import { Tab, TabList, Tabs } from "@chakra-ui/react"
 import React, { useState } from "react"
 import Layout from "../components/layout"
+import { cards, fontsmooth, themes } from "../utils/themes"
+import { getQueryParamsFromUrl } from "../utils/utils"
 
 // Mock data for users
 const usersData = [
@@ -18,38 +21,100 @@ const UserDetails = ({ user }) => (
   </VStack>
 )
 
-export default function UserManagementPage(props) {
+export default function Buddy(props) {
   const [selectedUser, setSelectedUser] = useState(usersData[0])
 
   return (
-    <Flex>
-      <Box w="30%" p={5} borderRight="1px" borderColor="gray.200">
-        <Heading size="md" mb={4}>
-          Your Buddies
-        </Heading>
-        <Divider />
-        <List spacing={3} mt={4}>
-          {usersData.map((user) => (
-            <ListItem key={user.id} cursor="pointer" _hover={{ bg: "gray.100" }} p={2} borderRadius="md">
-              <Flex justify="space-between" align="center" onClick={() => setSelectedUser(user)}>
-                <Text>{user.name}</Text>
-                <ListIcon as={ChevronRightIcon} />
+    <Flex direction={"column"} alignItems={"center"}>
+      <Heading size="lg">{props.groupname}</Heading>
+      <Flex direction={["row-reverse", "row", "row"]}>
+        <Flex flex={1} m={"2vh"}>
+          <Flex direction={["column-reverse", "column-reverse", "row", "row"]}>
+            <Flex direction={"column"} flex={[1]}>
+              {usersData.map((question, index) => (
+                <Uselinks key={index} question={question.name} />
+              ))}
+            </Flex>
+
+            <Flex direction={"column"} flex={[1]}>
+              <Text fontSize="lg" fontWeight="bold" m={"2vh"}>
+                More happening in the area
+              </Text>
+              <Flex direction={"column"} flex={1} gap={10}>
+                {usersData.map((user) => (
+                  <Question key={user.id} question={user.name} />
+                ))}
               </Flex>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-      <Box w="70%" p={5}>
-        {selectedUser ? <UserDetails user={selectedUser} key={selectedUser.id} /> : <Text>No user selected</Text>}
-      </Box>
+            </Flex>
+
+            <Flex direction={"column"} flex={[1]} gap={10}>
+              {usersData.map((user) => (
+                <LearnBox
+                  key={user.id}
+                  Title={user.name}
+                  Image="https://bit.ly/2k1H1t6"
+                  Description={`Email: ${user.email}, Role: ${user.role}`}
+                  Link="Learn More"
+                />
+              ))}
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
     </Flex>
   )
 }
 
+function LearnBox(props) {
+  return (
+    <Card style={cards.learncard} alignItems={"center"}>
+      <Heading size="md" my={2}>
+        {props.Title}
+      </Heading>
+
+      <Image src={props.Image} alt={props.Title} />
+      <Text>{props.Description}</Text>
+
+      <Button as="a" href={props.referurl} style={fontsmooth.smooth} bgColor={"white"}>
+        Learn More
+      </Button>
+    </Card>
+  )
+}
+
+function Question(props) {
+  const handleClick = () => {
+    // Code to navigate to another page
+    // You can use React Router or any other navigation library
+  }
+
+  return <Text onClick={handleClick}>{props.question}</Text>
+}
+
+function Uselinks(props) {
+  const handleClick = () => {
+    // Code to navigate to another page
+    // You can use React Router or any other navigation library
+  }
+
+  return <Text onClick={handleClick}>{props.question}</Text>
+}
 /**This place should be used to get any information from the server side
  * example : we need to get the session token
  * or any thing related to the page  */
 
-UserManagementPage.getLayout = function getLayout(page) {
+export async function getServerSideProps({ req }) {
+  // Access the query parameters from the req object
+
+  var params = getQueryParamsFromUrl(req.url)
+
+  if (params.searchword == undefined || params.searchword === "Any") {
+    params.searchword = null
+    console.log(params)
+  }
+  return { props: { groupname: params.searchword } }
+}
+
+Buddy.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }

@@ -1,6 +1,9 @@
-import { Box, Button, FormControl, FormLabel, Heading, Input, Text, VStack, useToast } from "@chakra-ui/react"
+import { Box, Button, Flex, FormLabel, Heading, Input, Text, VStack, useToast } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
+import { Sign } from "crypto"
+import Layout from "../components/layout"
+import Signupcomponent from "../components/signupcomponent"
 
 const SignupPage = () => {
   const [email, setEmail] = useState("")
@@ -26,43 +29,30 @@ const SignupPage = () => {
   }
 
   return (
-    <Box w="100%" p={4} maxWidth="500px" mx="auto" textAlign={"center"}>
-      <Heading mb={6}>Sign Up</Heading>
-      <form onSubmit={handleSubmit}>
-        <VStack spacing={4} align="flex-start">
-          <FormControl isRequired>
-            <FormLabel htmlFor="name">Name</FormLabel>
-            <Input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </FormControl>
-          <Button type="submit" colorScheme="blue" width="full">
-            Sign Up
+    <Flex direction={"row"} justifyContent={"center"} alignItems={"center"}>
+      <Flex direction={"column"} m={"30"} bg={"white"} w={"fit-content"} borderRadius={"20"}>
+        <Signupcomponent />
+        <Box padding={["1rem", "2rem", "3rem"]} textAlign={"center"}>
+          <Text
+            margin={"auto"}
+            fontSize={["1rem", "1rem", "1rem"]}
+            padding={["1rem", "1rem", "1rem"]}
+            marginX={["2rem", "2.5rem", "auto"]}
+            textAlign={"center"}
+          >
+            if you already have an account
+          </Text>
+          <Button onClick={() => router.push("/login")} margin={"auto"} colorScheme="blue">
+            Login
           </Button>
-        </VStack>
-      </form>
-      <Box padding={["5rem", "5rem", "6rem"]}>
-        <Text
-          margin={"auto"}
-          fontSize={["1rem", "1rem", "1rem"]}
-          padding={["1rem", "1rem", "1rem"]}
-          marginX={["2rem", "2.5rem", "auto"]}
-          textAlign={"center"}
-        >
-          if you already have an account
-        </Text>
-        <Button onClick={() => router.push("/login")} margin={"auto"} colorScheme="blue">
-          Login
-        </Button>
-      </Box>
-    </Box>
+        </Box>
+      </Flex>
+    </Flex>
   )
 }
 
 export default SignupPage
+
+SignupPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+}

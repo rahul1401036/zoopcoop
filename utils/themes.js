@@ -1,9 +1,15 @@
 import { extendTheme } from "@chakra-ui/react"
+import { forOwn, pad } from "lodash"
 
 export const colors = {
   headbar: {
-    100: "linear(to-b, white , lightgrey )",
+    100: "linear(to-b, white , white )",
   },
+  logo: { color: "black" },
+  footer: {
+    100: "linear(to-b, #0B04A8 , #0B04A8 )",
+  },
+
   primary: {
     100: "#B5FCF1",
     200: "#27EF96",
@@ -16,12 +22,32 @@ export const colors = {
     900: "#064C2E",
   },
 }
-const themes = {
+
+export const cards = {
+  learncard: {
+    borderRadius: "20px",
+    padding: "20px",
+  },
+}
+
+export const fontsmooth = {
+  smooth: {
+    fontFamily: "comic sans ms",
+    color: "#2920fa",
+    margin: "auto",
+  },
+}
+export const themes = {
   styles: {
     global: () => ({
       body: {
-        bg: "#FFFFFF",
+        bg: "#ffffff",
         minHeight: "100vh",
+        backgroundImage: `url("images/cornered-stairs.svg")`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center center",
       },
     }),
   },
@@ -43,15 +69,15 @@ const themes = {
   theme2: {
     colors: {
       primary: {
-        100: "#B5E5FC",
-        200: "#2796EF",
-        300: "#1082DE",
-        400: "#0E6FBE",
-        500: "#0C5FA2",
-        600: "#0A4F86",
-        700: "#08426F",
-        800: "#07375C",
-        900: "#062E4C",
+        100: "#aab8f2",
+        200: "#7e82ed",
+        300: "#555ae6",
+        400: "#4038fc",
+        500: "#2920fa",
+        600: "#241ce6",
+        700: "#160dd9",
+        800: "#0c04bd",
+        900: "#0B04A8",
       },
     },
   },

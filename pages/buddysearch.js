@@ -25,11 +25,22 @@ export default function BuddySearch(props) {
         fontSize={["2rem", "2.5rem", "3rem"]}
         marginX={["2rem", "2.5rem", "auto"]}
         textAlign={"center"}
+        color={"white"}
       >
         {buddysearch_monologue}
       </Text>
+
       <Box margin={"auto"} paddingY={["5rem", "5rem", "6rem"]}>
-        <SearchBar />
+        <Text
+          margin={"auto"}
+          fontSize={["1rem", "1.5rem", "2rem"]}
+          marginX={["2rem", "2.5rem", "auto"]}
+          textAlign={"center"}
+          color={"white"}
+        >
+          I am interviewing for
+        </Text>
+        <SearchBar onClick={(data) => router.push({ pathname: "/buddy", query: data })} noloc={true} />
       </Box>
       <Tabber />
     </Flex>
@@ -40,10 +51,6 @@ export default function BuddySearch(props) {
  * example : we need to get the session token
  * or any thing related to the page  */
 export async function getServerSideProps() {
-  const data = await fetch("https://jsonplaceholder.typicode.com/todos").then((response) => {
-    response.json()
-  })
-
   return { props: { title: "rahul" } }
 }
 

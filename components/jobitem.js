@@ -26,21 +26,27 @@ export default function JobItem(props) {
   }
 
   return (
-    <Card onClick={handleOnClick} h={["40vh"]} bg={"lightgrey"}>
+    <Card onClick={handleOnClick} bg={"white"}>
       <CardBody h={"100%"}>
-        <Flex h={"100%"}>
-          <Image
-            src={props.image_url}
-            alt={props.image_desc}
-            borderRadius="lg"
-            margin={"auto"}
-            objectFit={"contain"}
-            h={"100%"}
-          />
-          <Stack mt="6" spacing="3">
-            <Heading size="md">{props.title}</Heading>
-            <Text>{props.summary}</Text>
-          </Stack>
+        <Flex h={"100%"} flex={1}>
+          <Flex flex={1} flexDirection={"row"} alignItems={"start"} h={"100%"}>
+            <Flex flex={1} flexDirection={"row"} alignItems={"start"} h={"40%"}>
+              <Image
+                // src={props.image_url}
+                src={"https://via.placeholder.com/150"}
+                alt={props.image_desc}
+                borderRadius="lg"
+                objectFit={"contain"}
+                h={"100%"}
+              />
+            </Flex>
+          </Flex>
+          <Flex flex={1} flexDirection={"column"} alignItems={"start"} h={"100%"}>
+            <Stack mt="6" spacing="3">
+              <Heading size="md">{props.title}</Heading>
+              <Text>{props.summary}</Text>
+            </Stack>
+          </Flex>
         </Flex>
       </CardBody>
     </Card>

@@ -15,9 +15,9 @@ import {
 } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
-import { MdDragHandle, MdMessage, MdNotifications, MdSearch } from "react-icons/md"
+import { RxArrowDown, RxArrowRight, RxArrowUp, RxDropdownMenu } from "react-icons/rx"
 import Logo from "./logo"
-import { colors } from "../utils/themes"
+import { colors, fontsmooth, themes } from "../utils/themes"
 
 function DrawerWindow() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -26,16 +26,14 @@ function DrawerWindow() {
   const router = useRouter()
   return (
     <>
-      <Button ref={btnRef} colorScheme="transparent" onClick={onOpen}>
-        <Icon as={MdDragHandle}>
-          <div></div>
-        </Icon>
+      <Button ref={btnRef} onClick={onOpen} bgColor={"white"}>
+        <Icon as={RxArrowRight} color={"blue"} boxSize={7}></Icon>
       </Button>
       <Drawer isOpen={isOpen} placement="left" onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
         <DrawerContent w={["50vw"]}>
           <DrawerCloseButton />
-          <DrawerHeader>ZoopCoop</DrawerHeader>
+          <DrawerHeader style={fontsmooth.smooth}>ZoopCoop</DrawerHeader>
 
           <DrawerBody>
             <VStack spacing={4} align="stretch">
@@ -103,54 +101,31 @@ const NavBar = (props) => {
   const toggle = () => setIsOpen(!isOpen)
 
   return (
-    <NavBarContainer {...props} h={["15vh"]}>
+    <NavBarContainer {...props} h={["10vh", "12vh", "15vh"]} bgColor={"white"}>
       <DrawerWindow />
       <LogoItem />
-      <MenuToggle toggle={toggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} />
+      <MenuToggle toggle={toggle} isOpen={isOpen} bgColor={"white"} />
+      <MenuLinks isOpen={isOpen} bgColor={"white"} />
     </NavBarContainer>
   )
 }
 
-const CloseIcon = () => (
-  <svg width="24" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-    <title>Close</title>
-    <path
-      fill="white"
-      d="M9.00023 7.58599L13.9502 2.63599L15.3642 4.04999L10.4142 8.99999L15.3642 13.95L13.9502 15.364L9.00023 10.414L4.05023 15.364L2.63623 13.95L7.58623 8.99999L2.63623 4.04999L4.05023 2.63599L9.00023 7.58599Z"
-    />
-  </svg>
-)
-
-const MenuIcon = () => (
-  <svg width="24px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="white">
-    <title>Menu</title>
-    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-  </svg>
-)
-
 const MenuToggle = ({ toggle, isOpen }) => {
   return (
-    <Box display={{ base: "block", md: "none" }} onClick={toggle}>
-      {isOpen ? <CloseIcon /> : <MenuIcon />}
+    <Box display={{ base: "block", md: "none" }} bgColor={"white"} m={2} onClick={toggle}>
+      {isOpen ? (
+        <Icon as={RxArrowUp} color={"blue"} boxSize={7}></Icon>
+      ) : (
+        <Icon as={RxDropdownMenu} color={"blue"} boxSize={7}></Icon>
+      )}
     </Box>
   )
 }
 
 const LogoItem = () => {
   return (
-    <Link href={"/home"}>
-      <Logo w="100px" color={["white", "white"]}></Logo>
-    </Link>
-  )
-}
-
-const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
-  return (
-    <Link href={to}>
-      <Text display="block" {...rest} align={"center"} paddingTop={["15px", "15px", "10px", "10px"]}>
-        {children}
-      </Text>
+    <Link href={"/home"} h={"100%"} alignContent={"center"} justifyContent={"center"}>
+      <Logo width={[20]} style={fontsmooth.smooth}></Logo>
     </Link>
   )
 }
@@ -160,7 +135,7 @@ const LoginSignup = (props) => {
 
   if (!props.login) {
     return (
-      <Flex>
+      <Flex pb={[2, 3, 0]}>
         <Stack
           spacing={[6, 8, 10]}
           align="center"
@@ -179,7 +154,7 @@ const LoginSignup = (props) => {
     )
   } else {
     return (
-      <Flex>
+      <Flex pb={[2, 3, 0]}>
         <Stack
           spacing={[6, 8, 10]}
           align="center"
@@ -209,7 +184,7 @@ const LoginSignup = (props) => {
 
 const LinksButt = (props) => {
   return (
-    <Button bgColor={"white"} onClick={props.onClick}>
+    <Button bgColor={"white"} onClick={props.onClick} style={fontsmooth.smooth} border={"solid 1px"}>
       {!props.hideicon ? <Icon as={props.as} /> : <></>}
       <label>{props.label}</label>
     </Button>
@@ -229,7 +204,11 @@ const MenuLinks = ({ isOpen }) => {
     console.log("menu links")
   }, [isLogin])
   return (
-    <Box display={{ base: isOpen ? "block" : "none", md: "block" }} flexBasis={{ base: "100%", md: "auto" }}>
+    <Box
+      display={{ base: isOpen ? "block" : "none", md: "block" }}
+      bgColor={"white"}
+      flexBasis={{ base: "100%", md: "auto" }}
+    >
       <Stack
         spacing={[6, 8, 10]}
         align="center"
@@ -251,12 +230,13 @@ const NavBarContainer = ({ children, ...props }) => {
       justify="space-between"
       wrap="wrap"
       w="100%"
-      p={[4, 6, 6, 6]}
+      pt={[2, 4, 6]}
       top={0}
       position="sticky"
       zIndex={10}
       bgGradient={colors.headbar[100]}
       color={"white"}
+      borderBottom={"1px solid #f0f0f0"}
       {...props}
     >
       {children}

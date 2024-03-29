@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
 import Layout from "../components/layout"
@@ -17,24 +17,27 @@ export default function Login(props) {
   })
 
   const router = useRouter()
+
   return (
-    <>
-      <Logincomponent />
-      <Box padding={["5rem", "5rem", "6rem"]} textAlign={"center"}>
-        <Text
-          margin={"auto"}
-          fontSize={["1rem", "1rem", "1rem"]}
-          padding={["1rem", "1rem", "1rem"]}
-          marginX={["2rem", "2.5rem", "auto"]}
-          textAlign={"center"}
-        >
-          New Member ? Create an account
-        </Text>
-        <Button onClick={() => router.push("/signup")} margin={"auto"} colorScheme="blue">
-          Sign UP
-        </Button>
-      </Box>
-    </>
+    <Flex direction={"row"} justifyContent={"center"}>
+      <Flex direction={"column"} m={"30"} bg={"white"} w={"fit-content"} borderRadius={"20"}>
+        <Logincomponent />
+        <Box padding={["1rem", "2rem", "3rem"]} textAlign={"center"}>
+          <Text
+            margin={"auto"}
+            fontSize={["1rem", "1rem", "1rem"]}
+            padding={["1rem", "1rem", "1rem"]}
+            marginX={["2rem", "2.5rem", "auto"]}
+            textAlign={"center"}
+          >
+            New Member ? Create an account
+          </Text>
+          <Button onClick={() => router.push("/signup")} margin={"auto"} colorScheme="blue">
+            Sign UP
+          </Button>
+        </Box>
+      </Flex>
+    </Flex>
   )
 }
 
@@ -50,5 +53,5 @@ export async function getServerSideProps() {
 }
 
 Login.getLayout = function getLayout(page) {
-  return page
+  return <Layout>{page}</Layout>
 }
