@@ -47,7 +47,7 @@ function DrawerWindow() {
               >
                 Home
               </Button>
-              <Button
+              {/* <Button
                 to="/buddy"
                 variant="ghost"
                 onClick={() => {
@@ -56,7 +56,7 @@ function DrawerWindow() {
                 }}
               >
                 Buddy
-              </Button>
+              </Button> */}
               <Button
                 to="/jobsplane"
                 variant="ghost"
@@ -162,12 +162,12 @@ const LoginSignup = (props) => {
           direction={["column", "column", "row", "row"]}
           pt={[0, 0, 0, 0]}
         >
-          {router.asPath === "/buddy" ? (
+          {/* {router.asPath === "/buddy" ? (
             <></>
           ) : (
             <LinksButt href={"/buddy"} label="buddy" hideicon onClick={() => router.push("/buddy")} />
           )}
-          {/* { router.asPath === "/notifications" ?<></>:<LinksButt href={"/notifications"} label="notifications" as={MdNotifications} onClick={()=> router.push("/notifications")} />}
+          { router.asPath === "/notifications" ?<></>:<LinksButt href={"/notifications"} label="notifications" as={MdNotifications} onClick={()=> router.push("/notifications")} />}
           { router.asPath === "/messages" ?<></>:<LinksButt href={"/messages"} label="messages" as={MdMessage} onClick={()=> router.push("/messages")} />} */}
           {router.asPath === "/jobsplane" ? (
             <></>

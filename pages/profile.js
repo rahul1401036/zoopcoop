@@ -28,6 +28,7 @@ import {
 import React, { useState } from "react"
 import Layout from "../components/layout"
 import S3FileUpload from "../components/s3uploader"
+import { profilefetcher } from "../datafetch/datafetch"
 
 function EditableControls() {
   const { isEditing, getSubmitButtonProps, getCancelButtonProps, getEditButtonProps } = useEditableControls()
@@ -48,7 +49,7 @@ const EditableText = (props) => {
   return (
     <Editable
       defaultValue={props.default}
-      fontSize="2xl"
+      fontSize={props.fontSize ? props.fontSize : "2xl"}
       isPreviewFocusable={props.isPreviewFocusable}
       value={props.value}
     >
@@ -63,6 +64,9 @@ const EditableText = (props) => {
 
 export default function ProfileHome(props) {
   const [isOpen, setIsOpen] = useState(false)
+  const [uploadtype, setUploadtype] = useState("resume")
+
+  const { profile, isLoading, isError } = profilefetcher("nicole31@example.org")
 
   const profiledata = {
     name: "John Doe",
@@ -115,95 +119,124 @@ export default function ProfileHome(props) {
     resumeurl: "https://www.freecodecamp.org/certification/kr716/responsive-web-design",
   }
 
-  const handleUploadnewResume = (event) => {
+  if (isError) {
+    return <div>Failed to load</div>
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  const handleUpload = (type) => {
+    setUploadtype(type)
     setIsOpen(true)
   }
 
-  return (
-    <Flex minH="100vh" align="center" justify="center" bg="gray.50">
-      <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
-        <Stack spacing={6} align="center">
+  if (profile) {
+    const candidate = profile[0]
+    return (
+      <Flex direction={["column", "row"]} bg="gray.50">
+        <Flex direction={"column"} align="center" p={8} rounded={8} bg={"white"}>
           <Avatar size="xl" src="https://avatars.githubusercontent.com/u/37272663?v=4" alt="Avatar Alt" />
-          <EditableText defaultValue="John Doe" fontSize="2xl" isPreviewFocusable={false} value={profiledata.name} />
+          <EditableText defaultValue="John Doe" fontSize="2xl" isPreviewFocusable={false} value={candidate.name} />
 
           <EditableText
             defaultValue="Full Stack Developer"
             fontWeight="bold"
             isPreviewFocusable={false}
-            value={profiledata.title}
+            value={candidate.profession}
           />
-
-          <Stack direction="row" spacing={4}>
+          <Text>Skills</Text>
+          <Stack direction="column" spacing={4}>
             {profiledata.skills.map((skill) => (
               <Badge px={2} py={1} bg="gray.50" key={skill} fontWeight="400">
                 {skill}
               </Badge>
             ))}
           </Stack>
-        </Stack>
-        <Stack spacing={10}>
-          <Stack spacing={4}>
-            <Text fontSize="xl" fontWeight="500">
-              About Me
-            </Text>
-            <Editable
-              defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              isPreviewFocusable={false}
-              value={profiledata.bio}
-            >
-              <Flex>
-                <EditablePreview />
-                <EditableInput />
-                <EditableControls />
-              </Flex>
-            </Editable>
-          </Stack>
-          <Stack spacing={4}>
-            <Text fontSize="xl" fontWeight="500">
-              Contact Information
-            </Text>
-            <Stack spacing={2}>
-              {profiledata.contactinfo.map((info) => (
-                <Editable key={info} defaultValue={info} isPreviewFocusable={false}>
-                  <EditablePreview />
-                  <EditableInput />
-                  <EditableControls />
-                </Editable>
-              ))}
+        </Flex>
+
+        <Flex direction="column" align="center" p={8} rounded={8} flex={1}>
+          <Stack spacing={10}>
+            <Stack spacing={4}>
+              <Text fontSize="xl" fontWeight="500">
+                About Me
+              </Text>
+              <EditableText
+                defaultValue="All about me"
+                fontSize="l"
+                isPreviewFocusable={false}
+                value={candidate.name}
+              />
+            </Stack>
+            <Stack spacing={4}>
+              <Text fontSize="xl" fontWeight="500">
+                Contact Information
+              </Text>
+              <Stack spacing={2}>
+                <Text fontSize="xl" fontWeight="500">
+                  Email
+                </Text>
+                <EditableText
+                  defaultValue="All about me"
+                  fontSize="l"
+                  isPreviewFocusable={false}
+                  value={candidate.email}
+                />
+                <Text fontSize="xl" fontWeight="500">
+                  Phone
+                </Text>
+                <EditableText
+                  defaultValue="All about me"
+                  fontSize="l"
+                  isPreviewFocusable={false}
+                  value={candidate.phone}
+                />
+              </Stack>
             </Stack>
           </Stack>
-          <Flex>
-            <Text>Resume:</Text>
-            {profiledata.resumeurl ? (
-              <Link href={profiledata.resumeurl} color={"blue"}>
-                Resume
-              </Link>
-            ) : (
-              <S3FileUpload />
-            )}
-            <Button colorScheme="blue" onClick={handleUploadnewResume}>
-              Upload new Resume
-            </Button>
-            <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>Upload Resume</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                  <S3FileUpload />
-                </ModalBody>
-                <ModalFooter>
-                  <Button colorScheme="blue" mr={3} onClick={() => setIsOpen(false)}>
-                    Close
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
-          </Flex>
-        </Stack>
-      </Stack>
-    </Flex>
-  )
+        </Flex>
+
+        <Flex direction={"column"} padding={30} flex={1}>
+          <Text>Resume:</Text>
+          {profiledata.resumeurl ? (
+            <Link href={profiledata.resumeurl} color={"blue"}>
+              Resume
+            </Link>
+          ) : (
+            <S3FileUpload />
+          )}
+          <Button colorScheme="blue" onClick={() => handleUpload("resume")}>
+            Upload new Resume
+          </Button>
+
+          <Text>Cover Letter:</Text>
+          {profiledata.resumeurl ? (
+            <Link href={profiledata.resumeurl} color={"blue"}>
+              cover letter
+            </Link>
+          ) : (
+            <S3FileUpload />
+          )}
+          <Button colorScheme="blue" onClick={() => handleUpload("cover letter")}>
+            Upload new Cover Letter
+          </Button>
+
+          <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Upload new {uploadtype}</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <S3FileUpload />
+              </ModalBody>
+              <ModalFooter></ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Flex>
+      </Flex>
+    )
+  }
 }
 
 /**This place should be used to get any information from the server side

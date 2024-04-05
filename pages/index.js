@@ -20,7 +20,7 @@ function App() {
           Coming Soon
         </Heading>
         <Text fontSize="2xl" mt="4" color={"white"}>
-           We are working on it! 
+          We are working on it!
         </Text>
         <Flex justifyContent="center" mt="8"></Flex>
       </Box>
@@ -29,5 +29,3 @@ function App() {
 }
 
 export default App
-
-

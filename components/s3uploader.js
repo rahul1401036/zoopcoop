@@ -1,4 +1,4 @@
-import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react"
+import { Button, CircularProgress, CircularProgressLabel, Flex } from "@chakra-ui/react"
 import S3 from "aws-sdk/clients/s3"
 
 import { set } from "lodash"
@@ -126,11 +126,21 @@ function S3FileUpload(props) {
   //////////////////
 
   return (
-    <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={uploadFilemultipart}>Upload</button>
-      <CircularProgress value={progress} color="orange.400" />
-    </div>
+    <Flex direction={"column"} w={"fit-content"} flexGrow={1} gap={"10px"} flex={1}>
+      <Flex direction={"column"} flex={1} align={"center"} justify={"center"}>
+        <input type="file" onChange={handleFileChange} />
+      </Flex>
+
+      <Flex direction={"row"}>
+        <Flex direction={"column"} flex={1}>
+          <Button onClick={uploadFilemultipart}>Upload</Button>
+        </Flex>
+
+        <Flex direction={"column"} flex={1} align={"flex-end"}>
+          <CircularProgress value={progress} color="orange.400" />
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }
 

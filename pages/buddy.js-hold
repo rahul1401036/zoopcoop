@@ -8,9 +8,9 @@ import { getQueryParamsFromUrl } from "../utils/utils"
 
 // Mock data for users
 const usersData = [
-  { id: 1, name: "John Doe", email: "john@example.com", role: "Administrator" },
-  { id: 2, name: "Jane Doe", email: "jane@example.com", role: "Editor" },
-  { id: 3, name: "William Smith", email: "william@example.com", role: "Subscriber" },
+  { id: 1, name: "John Doe", email: "john@example.com", role: "Administrator" , position: "Data Engineer", company: "ZoopCoop" , question: "How to get a job in data science?"},
+  { id: 2, name: "Jane Doe", email: "jane@example.com", role: "Editor", position: "Data Scientist", company: "ZoopCoop" , question: "How to get a job in data science?"},
+  { id: 3, name: "William Smith", email: "william@example.com", role: "Subscriber", position: "Data Analyst", company: "ZoopCoop" ,question: "How to get a job in data science?"},
 ]
 
 const UserDetails = ({ user }) => (
@@ -26,23 +26,23 @@ export default function Buddy(props) {
 
   return (
     <Flex direction={"column"} alignItems={"center"}>
-      <Heading size="lg">{props.groupname}</Heading>
+      <Heading size="lg" my={"1vh"} color={"white"}>{props.groupname || "Data Engineer"}</Heading>
       <Flex direction={["row-reverse", "row", "row"]}>
-        <Flex flex={1} m={"2vh"}>
-          <Flex direction={["column-reverse", "column-reverse", "row", "row"]}>
-            <Flex direction={"column"} flex={[1]}>
-              {usersData.map((question, index) => (
-                <Uselinks key={index} question={question.name} />
+        <Flex flex={1} mx={"2vh"} >
+          <Flex direction={["column-reverse", "column-reverse", "row", "row"]} columnGap={"10px"} >
+            <Flex direction={"column"} flex={[1]} gap={"2px"}>
+              {usersData.map( item => (
+                 <Referral key={item.id} position={item.position} company={item.company} desc={item.name} />
               ))}
             </Flex>
 
-            <Flex direction={"column"} flex={[1]}>
+            <Flex direction={"column"} flex={[2]} bg={'white'} borderRadius={"5px"} >
               <Text fontSize="lg" fontWeight="bold" m={"2vh"}>
                 More happening in the area
               </Text>
               <Flex direction={"column"} flex={1} gap={10}>
                 {usersData.map((user) => (
-                  <Question key={user.id} question={user.name} />
+                  <Uselinks key={user.id} question={user.question} />
                 ))}
               </Flex>
             </Flex>
@@ -82,13 +82,23 @@ function LearnBox(props) {
   )
 }
 
-function Question(props) {
+function Referral(props) {
   const handleClick = () => {
     // Code to navigate to another page
     // You can use React Router or any other navigation library
   }
 
-  return <Text onClick={handleClick}>{props.question}</Text>
+  return <Flex direction={"column"} bg={"white"} borderRadius={"5px"} alignItems={"center"} margin={1}>
+  <Heading size="sm" my={2}>
+    {props.position}
+  </Heading>
+
+  <Text>{props.company}</Text>
+
+  <Button as="a" href={props.referurl} style={fontsmooth.smooth} bgColor={"white"}>
+    Request Referral
+  </Button>
+</Flex>
 }
 
 function Uselinks(props) {
@@ -97,7 +107,15 @@ function Uselinks(props) {
     // You can use React Router or any other navigation library
   }
 
-  return <Text onClick={handleClick}>{props.question}</Text>
+  return  <Flex  direction={"column"} borderY={"solid"} borderWidth={"1px"} borderColor={"blue"} >
+  <Heading size="md" my={2}>
+    {props.question}
+  </Heading>
+
+  <Text>{props.question}</Text>
+
+  
+</Flex>
 }
 /**This place should be used to get any information from the server side
  * example : we need to get the session token
