@@ -1,10 +1,19 @@
 import { CheckCircleIcon } from "@chakra-ui/icons"
 import { Box, Button, Divider, Flex, Heading, List, ListIcon, ListItem, Tag, Text, VStack } from "@chakra-ui/react"
+import { useRouter } from "next/router"
 import React from "react"
 import Layout from "../../components/layout"
 import SimilarJobs from "../../components/similarjobs"
+import { jobdatafetcher } from "../../datafetch/datafetch"
 
-export default function JobPage(props) {
+function JobPage(props) {
+  const router = useRouter()
+
+  const { job, isLoading, isError } = jobdatafetcher(router.query.jobid)
+
+  if (isLoading) return <div>Loading...</div>
+  if (isError) return <div>Error</div>
+
   var jobDetails = {
     title: "Senior Frontend Developer",
     location: "New York, NY or Remote",
@@ -32,56 +41,60 @@ export default function JobPage(props) {
     jobDetails = props.jobDetails
   }
 
-  return (
-    <Flex direction="row" align="top" justify="top">
-      <Box maxW="800px" p={5}>
-        <VStack spacing={5} align="stretch">
-          <Heading as="h1" size="xl">
-            {jobDetails.title}
-          </Heading>
-          <Text fontSize="lg">{jobDetails.description}</Text>
-          <Box>
-            <Tag mr={2} colorScheme="blue">
-              {jobDetails.location}
-            </Tag>
-            <Tag colorScheme="green">{jobDetails.type}</Tag>
-          </Box>
-          <Divider />
-          <Box>
-            <Heading as="h2" size="lg">
-              Responsibilities:
-            </Heading>
-            <List spacing={2}>
-              {jobDetails.responsibilities.map((responsibility, index) => (
-                <ListItem key={index} display="flex" alignItems="center">
-                  <ListIcon as={CheckCircleIcon} color="green.500" />
-                  {responsibility}
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-          <Box>
-            <Heading as="h2" size="lg">
-              Requirements:
-            </Heading>
-            <List spacing={2}>
-              {jobDetails.requirements.map((requirement, index) => (
-                <ListItem key={index} display="flex" alignItems="center">
-                  <ListIcon as={CheckCircleIcon} color="green.500" />
-                  {requirement}
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-          <Button colorScheme="blue" size="lg">
-            Apply for this job
-          </Button>
-        </VStack>
-      </Box>
+  if (job) {
+    const jobelem = job[0]
 
-      <SimilarJobs />
-    </Flex>
-  )
+    return (
+      <Flex direction="row" align="top" justify="top">
+        <Box maxW="800px" p={5}>
+          <VStack spacing={5} align="stretch">
+            <Heading as="h1" size="xl">
+              {jobelem.title}
+            </Heading>
+            <Text fontSize="lg">{jobelem.description}</Text>
+            <Box>
+              <Tag mr={2} colorScheme="blue">
+                {jobelem.location}
+              </Tag>
+              <Tag colorScheme="green">{jobelem.type}</Tag>
+            </Box>
+            <Divider />
+            <Box>
+              <Heading as="h2" size="lg">
+                Responsibilities:
+              </Heading>
+              <List spacing={2}>
+                {jobDetails.responsibilities.map((responsibility, index) => (
+                  <ListItem key={index} display="flex" alignItems="center">
+                    <ListIcon as={CheckCircleIcon} color="green.500" />
+                    {responsibility}
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+            <Box>
+              <Heading as="h2" size="lg">
+                Requirements:
+              </Heading>
+              <List spacing={2}>
+                {jobDetails.requirements.map((requirement, index) => (
+                  <ListItem key={index} display="flex" alignItems="center">
+                    <ListIcon as={CheckCircleIcon} color="green.500" />
+                    {requirement}
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+            <Button colorScheme="blue" size="lg">
+              Apply for this job
+            </Button>
+          </VStack>
+        </Box>
+
+        <SimilarJobs />
+      </Flex>
+    )
+  }
 }
 
 /**This place should be used to get any information from the server side
@@ -91,3 +104,5 @@ export default function JobPage(props) {
 JobPage.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }
+
+export default JobPage

@@ -92,9 +92,10 @@ export default function Logincomponent(props) {
     })
 
     const data = await response.json()
-    storelocal("token", data.token.accessToken)
+
     if (response.ok) {
       router.push("/home")
+      storelocal("token", data.token.accessToken)
     } else {
       // Handle errors
     }
@@ -207,7 +208,7 @@ export default function Logincomponent(props) {
                   inputtype="email"
                   label="Email*"
                   placeholder="abc@xyz.uvw"
-                  onChange={(e) => handleEmailChange(e)}
+                  onChange={(e) => handleEmailChange(e.target.value)}
                 />
               </Flex>
             </Flex>
@@ -223,7 +224,7 @@ export default function Logincomponent(props) {
                   inputtype="password"
                   label="Password"
                   placeholder="type your password"
-                  onChange={(e) => handlePasswordChange(e)}
+                  onChange={(e) => handlePasswordChange(e.target.value)}
                 />
               </Flex>
             </Flex>

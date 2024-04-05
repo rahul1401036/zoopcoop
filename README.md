@@ -51,17 +51,6 @@ The following scripts are available in the `package.json`:
 - `preinstall`: Ensures the project is installed with Yarn
 - `coupling-graph`: **Generates a coupling and cohesion graph for the components**
 
-## 🔗 Coupling Graph
-
-The `coupling-graph` script is a useful tool that helps visualize the coupling and connections between your project's internal modules. It's built using the [Madge](https://github.com/pahen/madge) library. To generate the graph, simply run the following command:
-
-```bash
-yarn coupling-graph
-```
-
-This will create a `graph.svg` file, which contains a graphical representation of the connections between your components. You can open the file with any SVG-compatible viewer.
-
-![graph](https://user-images.githubusercontent.com/28964599/233662744-3ba89713-8466-49cd-9be7-e6fb38191f58.png)
 
 ## Testing 
 

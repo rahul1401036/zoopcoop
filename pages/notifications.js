@@ -4,34 +4,36 @@ import React, { useContext, useEffect, useState } from "react"
 import Layout from "../components/layout"
 import Notification from "../components/notification"
 import { SearchBar } from "../components/searchbar"
+import { notificationfetcher } from "../datafetch/datafetch"
 
 export default function NotificationsHome(props) {
-  const [isloaded, setIsLoaded] = React.useState(false)
-
   useEffect(() => {
     if (!isloaded) {
       console.log("isloaded called")
-
-      setIsLoaded(true)
     }
   })
 
   const router = useRouter()
 
-  // Assuming you have an array of notification objects called "notifications"
-  const notifications = [
-    { id: 1, message: "Notification 1" },
-    { id: 2, message: "Notification 2" },
-    { id: 3, message: "Notification 3" },
-  ]
+  const { notifications, isloaded, isError } = notificationfetcher("nicole31@example.org")
 
-  return (
-    <Flex direction="column" padding={[3, 4, 16, 18, 20]} rowGap={[5]}>
-      {notifications.map((notification) => (
-        <Notification key={notification.id} message={notification.message} />
-      ))}
-    </Flex>
-  )
+  // Assuming you have an array of notification objects called "notifications"
+  if (isError) {
+    return <div>Failed to load</div>
+  }
+
+  if (isloaded) {
+    return <div>Loading...</div>
+  }
+  if (notifications) {
+    return (
+      <Flex direction="column" padding={[3, 4, 16, 18, 20]} rowGap={[5]}>
+        {notifications.map((notification) => (
+          <Notification key={notification.id} message={notification.notification_status} />
+        ))}
+      </Flex>
+    )
+  }
 }
 
 /**This place should be used to get any information from the server side

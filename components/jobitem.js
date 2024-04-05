@@ -22,7 +22,7 @@ export default function JobItem(props) {
   //function when clicked
 
   const handleOnClick = (e) => {
-    router.push(`/job/${props.id}`)
+    router.push({ pathname: `/job/${props.id}`, query: { jobid: props.id } })
   }
 
   return (

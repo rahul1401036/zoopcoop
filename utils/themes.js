@@ -43,11 +43,13 @@ export const themes = {
       body: {
         bg: "#ffffff",
         minHeight: "100vh",
+
         backgroundImage: `url("images/cornered-stairs.svg")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
         backgroundPosition: "center center",
+        zIndex: -100,
       },
     }),
   },

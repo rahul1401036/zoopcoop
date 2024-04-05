@@ -20,8 +20,7 @@ export default async function middleware(req, res) {
     if (req.url == `${baseURL}/login`) {
       console.log(req.url)
     } else {
-      // return NextResponse.redirect(new URL("/login", req.url))
-      console.log("else", req.url)
+      return NextResponse.redirect(new URL("/login", req.url))
     }
   } else {
     if (req.url == `${baseURL}/login`) {
@@ -31,7 +30,7 @@ export default async function middleware(req, res) {
 
   try {
     // Verify the token
-    
+
     const payload = await verifyJWT(token.value)
 
     // Attach the decoded user object to the request
@@ -74,5 +73,7 @@ export default async function middleware(req, res) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sw.js|manifest.json|test.html|icon*|images/*).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|sw.js|manifest.json|test.html|icon*|images/*|login|signup|worker-*).*)",
+  ],
 }

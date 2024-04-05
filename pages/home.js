@@ -22,7 +22,7 @@ export default function Home(props) {
         <SearchBar onClick={(data) => router.push({ pathname: "/jobsearch", query: data })} />
       </Box>
 
-      <Button
+      {/* <Button
         width={["20rem", "30rem", "40rem"]}
         height={["3rem", "4rem", "5rem"]}
         margin={"auto"}
@@ -34,7 +34,7 @@ export default function Home(props) {
         style={fontsmooth.smooth}
       >
         Look For Buddy
-      </Button>
+      </Button> */}
     </Flex>
   )
 }

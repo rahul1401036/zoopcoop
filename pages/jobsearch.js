@@ -28,27 +28,26 @@ import { NextRequest } from "next/server"
 import React, { useContext, useEffect, useState } from "react"
 import JobItem from "../components/jobitem"
 import Layout from "../components/layout"
-import { menuitemfetcher } from "../datafetch/datafetch"
+import { jobsearchfetcher, jobsearchfetcherall, menuitemfetcher } from "../datafetch/datafetch"
 
 import { themes } from "../utils/themes"
 import { getQueryParamsFromUrl } from "../utils/utils"
 // import { Box, Checkbox, CheckboxGroup, Select, Slider, SliderFilledTrack, SliderThumb, SliderTrack } from "@chakra-ui/react";
 
 function Menubox(props) {
-  const { data, isLoading, isError } = menuitemfetcher("/zoopcoop/get/jobs", {
-    title: props.searchtext,
+  const { jobs, isLoading, isError } = jobsearchfetcher({
+    location: props.location,
+    position: props.position,
     page: props.page,
   })
 
   if (isLoading) return <Spinner />
   if (isError) return <>It has been an error</>
 
-  return (
-    <Box display="flex">
-      <Box flex="1">
-        {data == null ? (
-          <>No results </>
-        ) : (
+  if (jobs) {
+    return (
+      <Box display="flex">
+        <Box flex="1">
           <>
             <Grid
               marginX={["0vh", "1vh", "2vh", "4vh"]}
@@ -56,7 +55,7 @@ function Menubox(props) {
               padding={["4%", "5%", "6%", "7%"]}
               gap={6}
             >
-              {data.map((item) => (
+              {jobs.map((item) => (
                 <JobItem
                   key={item.id}
                   id={item.id}
@@ -68,10 +67,12 @@ function Menubox(props) {
               ))}
             </Grid>
           </>
-        )}
+        </Box>
       </Box>
-    </Box>
-  )
+    )
+  }
+
+  if (!jobs) return <div>No data found</div>
 }
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
@@ -140,10 +141,15 @@ export default function MenuPage(props) {
   const router = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
+  const [location, setLocation] = useState()
+  const [position, setPosition] = useState()
+
+  const [locationtext, setLocationtext] = useState()
+  const [positiontext, setPositiontext] = useState()
+
   useEffect(() => {
     if (!isloaded) {
       console.log("isloaded called")
-
       setIsLoaded(true)
     }
   })
@@ -151,6 +157,16 @@ export default function MenuPage(props) {
   return (
     <>
       {/* <SearchBar /> */}
+      <Input placeholder="Location" onChange={(e) => setLocationtext(e.target.value)} />
+      <Input placeholder="Position" onChange={(e) => setPositiontext(e.target.value)} />
+      <Button
+        onClick={() => {
+          setLocation(locationtext)
+          setPosition(positiontext)
+        }}
+      >
+        Search
+      </Button>
       <Flex flexDirection={["column-reverse", "column-reverse", "row", "row"]}>
         <Show above="lg">
           <FilterBox onSearchPress={(val) => setSearchtext(val)} />
@@ -168,7 +184,7 @@ export default function MenuPage(props) {
           </Modal>
         </Show>
         <Box flex="1">
-          <Menubox searchtext={searchtext} page={page} />
+          <Menubox searchtext={searchtext} page={page} location={location} position={position} />
         </Box>
         <Pagination currentPage={page} totalPages={100} onPageChange={(page) => setPage(page)} />
       </Flex>
@@ -240,12 +256,6 @@ function FilterBox(props) {
       position="sticky"
       top={"15vh"}
     >
-      <SearchBar
-        onSearchPress={(val) => {
-          props.onSearchPress(val)
-          props.onClose()
-        }}
-      />
       <Heading size="md" mb={3}>
         Filters
       </Heading>
