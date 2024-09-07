@@ -1,18 +1,20 @@
 import { NextRequest, NextResponse } from "next/server"
 import { refreshAccessToken } from "./utils/auth"
 import { jwtVerify } from "jose"
-const secretKey = new TextEncoder().encode("Swe4g7c?UBm5Nrd96vhsVDtkyJFbqKMTm!TMw5BDRLtaCFAXNvbq?s4rGKQSZnUP")
+const secretKey = new TextEncoder().encode("Cherry")
 
 const verifyJWT = async (token) => {
   const { payload, protectedHeader } = await jwtVerify(token, secretKey)
   return payload
 }
 
-async function middlewaredummy(req, res) {}
+export default async function middlewaredummy(req, res) {}
 
 const baseURL = "https://seventwelve.in"
 const baseURL_test = "http://localhost:3000"
-export default async function middleware(req, res) {
+
+async function middleware(req, res) {
+// export default async function middleware(req, res) {
   // Extract token from request headers or cookies or wherever it's stored
   const token = req.cookies.get("token")
 
